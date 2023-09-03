@@ -1,5 +1,6 @@
 # Table of Contents
 - [template](#template)
+- [uname](#uname)
 - [mkdir](#mkdir)
 - [pwd](#pwd)
 - [cd](#cd)
@@ -13,9 +14,16 @@
 - [chown](#chown)
 - [chgrp](#chgrp)
 - [chmod](#chmod)
+- [ln](#ln)
+- [wc](#wc)
+- [which](#which)
 - [netcat](#netcat)
 - [md5sum](#md5sum)
-
+- [dd](#dd)
+- [mktemp](#mktemp)
+- [date](#date)
+- [df](#df)
+- [du](#du)
 
 <a name="template"></a>
 ##### Concept:  
@@ -24,6 +32,24 @@
 ###### Real combat:
 ###### Explain:  
 ###### Common options:
+
+<a name="uname"></a>
+##### Concept: uname command help displays the information about the system
+###### Situation: 
+
+###### Real combat:
+Type: "uname [OPTION]"
+Type: "uname -a" (Kernel name, network node hostname, kernel release date, kernel version, machine hardware name, hardware platform, operating system)      
+###### Explain:  
+###### Common options:
+-s, --kernel-name: print the kernel name        
+-n, --nodename: print the network node hostname     
+-r, --kernel-release: print the kernel release      
+-v, --kernel-version: print the kernel version      
+-m, --machine: print the machine hardware name      
+-p, --processor: print the processor type (non-portable)        
+-i, --hardware-platform: print the hardware platform (non-portable)     
+-o, --operating-system: print the operating system      
 
 <a name="mkdir"></a>
 ##### Concept: mkdir command help create directory
@@ -207,6 +233,54 @@ Type: "chmod 674 program" (add rw for Owner, rwx for Group, and r for Other)
 -v, --verbose: output a diagnostic for every file processed 
 -c, --changes: like verbose but report only when a change is made   
 
+<a name="ln"></a>
+##### Concept: ln command is used to create links between files
+###### Situation: like shortcut in window 
+
+###### Real combat:
+Type: "ln -s source.txt destination.txt" (link source.txt file to destination.txt; If one of the two changes both file changes)     
+Type: "ln source.txt ./abc" (link a file to folder, source.txt will be copied to the abc directory)     
+###### Explain:
+###### Common options:
+-f, --force: remove existing destination files            
+-i, --interactive: prompt whether to remove destinations        
+-P, --physical: make hard links directly to symbolic links      
+-s, --symbolic: make symbolic links instead of hard links       
+-t, --target-directory=DIRECTORY: specify the DIRECTORY in which to create the links        
+-T, --no-target-directory: treat LINK_NAME as a normal file always      
+-v, --verbose: print name of each linked file       
+
+<a name="wc"></a>
+##### Concept: wc stands for word count. As the name implies, it is mainly used for counting purpose
+###### Situation: 
+
+###### Real combat:
+Type: "echo "hello guys" | wc "       
+Type: "wc abc.txt"      
+Type: "wc -w abc.txt"           
+Type: "wc -l abc.txt"      
+Type: "wc -l abc.txt cba.txt"        
+###### Explain:  
+###### Common options:
+-c, --bytes: print the byte counts          
+-m, --chars: print the character counts     
+-l, --lines: print the newline counts       
+-w, --words: print the word counts   
+
+<a name="which"></a>
+##### Concept: which command in Linux is a command which is used to locate the executable file associated with the given command by searching it in the path environment variable. It has 3 return statuses as follows:                   
+0 : If all specified commands are found and executable          
+1 : If one or more specified commands is nonexistent or not executable          
+2 : If an invalid option is specified           
+###### Situation: 
+
+###### Real combat:
+Type: "which ln"            
+Type: "which mv python"        
+###### Explain:  
+###### Common options:
+-a: print all matching pathnames of each argument       
+
 <a name="netcat"></a>
 #### Concept: netcat command a command-line utility that allows users to read and write data over a network connection.
 ###### Situation: When you have a big file you wanna copy it to another pc but you do not have any usb or you can not setup ssh. You can use netcat
@@ -233,3 +307,92 @@ Type: "cmp hashcheck.txt hashduplecheck.txt"
 ###### Common options:
 -b, --binary: read in binary mode   
 -c, --check: read checksums from the FILEs and check them   
+
+<a name="dd"></a>
+##### Concept: dd is a command-line utility for Unix and Unix-like operating systems whose primary purpose is to convert and copy files (large file)
+###### Situation: if you wanna to backup you disk you can use dd command
+
+###### Real combat:
+Type: "dd if=/dev/sda of=/dev/sdb" (copy of a hard disk to another hard disk connected to the same system)   
+Type: "dd if=/dev/hda1 of=~/partition.img" (backup a Partition)         
+Type: "dd if=/dev/hda of=~/hdadisk.img" (create an image of a Hard Disk)        
+Type: "dd if=hdadisk.img of=/dev/hdb" (restore using the Hard Disk Image)       
+Type: "dd if=/dev/cdrom of=tgsservice.iso bs=2048" (create CDROM Backup)        
+###### Explain: 
+"if" is input file      
+"of" is output file      
+###### Common options:
+man dd (to see more)    
+
+<a name="mktemp"></a>
+##### Concept: mktemp command in Linux lets users create a temporary file or directory 
+###### Situation: 
+
+###### Real combat:
+Type: "mktemp"      
+Type: "mktemp -d" (create a temporary directory)    
+Type: "mktemp tempfileXXX --suffix=HTF" (tempfilecVkHTF)   
+###### Explain:  
+###### Common options:
+man mktemp (to see more)    
+
+<a name="date"></a>
+##### Concept: date command help display the system date and time
+###### Situation: 
+
+###### Real combat:
+Type: "date"        
+"date --date=" string ""        
+Type: "date --date="2/02/2010""     
+Type: "date --date="2 years ago""       
+Type: "date --date="yesterday""   
+Type: "date --date="1 year""        
+"date +%[format-option]"        
+Type: "date +"%D %T""       
+Type: "date +"%Y-%m-%d""     
+Type: "date +"%Y-%m-%d %H:%M:%S""    
+###### Explain:  
+%D: Display date as mm/dd/yy.              
+%d: Display the day of the month (01 to 31).             
+%a: Displays the abbreviated name for weekdays (Sun to Sat).        
+%A: Displays full weekdays (Sunday to Saturday).        
+%h: Displays abbreviated month name (Jan to Dec).       
+%b: Displays abbreviated month name (Jan to Dec).       
+%B: Displays full month name(January to December).      
+%m: Displays the month of year (01 to 12).      
+%y: Displays last two digits of the year(00 to 99).     
+%Y: Display four-digit year.        
+%T: Display the time in 24 hour format as HH:MM:SS.     
+%H: Display the hour.       
+%M: Display the minute.     
+%S: Display the seconds.        
+###### Common options:
+-d, --date=STRING: display time described by STRING, not 'now'      
+-u, --utc, --universal: print or set Coordinated Universal Time (UTC)       
+
+<a name="df"></a>
+##### Concept: df stands for disk free
+###### Situation: how much space is available on a particular file system       
+
+###### Real combat:
+Type: "df -Th --total"  
+Type: "df -Th /dev/sda /dev/sda1"        
+###### Explain:  
+###### Common options:
+-a, --all: include pseudo, duplicate, inaccessible file systems     
+-T, --print-type: print file system type        
+-h, --human-readable: print sizes in powers of 1024         
+--total: elide all entries insignificant to available space, and produce a grand total     
+
+<a name="du"></a>
+##### Concept: du command stands for disk usage.
+###### Situation: if you want to check measures the disk space occupied by files or directories use du
+
+###### Real combat:
+Type: "du abc.txt cba.txt" (check files)        
+Type: "du abc" (check folder)       
+###### Explain:  
+###### Common options:
+-a, --all: write counts for all files, not just directories     
+-c, --total: produce a grand total      
+-h, --human-readable: print sizes in human readable format      
