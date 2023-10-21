@@ -61,6 +61,7 @@
 - [nproc](#nproc)
 - [tr](#tr)
 - [comm](#comm)
+- [taskset](#taskset)
 
 <a name="template"></a>
 ##### Concept:  
@@ -988,4 +989,22 @@ Type: "echo "my ID is 73535" | tr -cd [:digit:]" (remove all characters except d
 --nocheck-order: do not check that the input is correctly sorted            
 --output-delimiter=STR: separate columns with STR           
 --total: output a summary       
--z, --zero-terminated: line delimiter is NUL, not newline           
+-z, --zero-terminated: line delimiter is NUL, not newline  
+
+<a name="taskset"></a>
+##### Concept: taskset command help set number cpu to execute the task pid          
+###### Situation:           
+
+###### Real combat:
+"taskset [options] mask command [argument...]"          
+"taskset [options] -p [mask] pid"
+Type: taskset -p 734967 (check cpu to allow execute the program with pid 734967)
+Output: pid 734967's current affinity mask: 3f (3f = 3 f = 0011 1111 = allow cpu 0,1,2,3,4,5) (1f = 1 f = 0001 1111 = allow cpu 0,1,2,3,4)          
+Type: taskset -cp 0,2 734967 (assign cpu 0 and cpu 2 for task with pid 734967)        
+Type: taskset -cp 0-2 734967 (assign cpu 0,1,2 for task with pid 734967)          
+###### Explain:  
+###### Common options:
+-a, --all-tasks: Set or retrieve the CPU affinity of all the tasks (threads) for a given PID.
+-c, --cpu-list: Interpret mask as numerical list of processors instead of a bitmask. Numbers are separated by commas and may include ranges. For example: 0,5,8-11.
+-p, --pid: Operate on an existing PID and do not launch a new task.
+
