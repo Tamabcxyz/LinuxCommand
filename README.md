@@ -62,6 +62,36 @@
 - [tr](#tr)
 - [comm](#comm)
 - [taskset](#taskset)
+- [setfacl and getfacl](#setfacl)
+- [cut](#cut)
+- [awk](#awk)
+- [grep](#grep)
+- [sort](#sort)
+- [unique](#unique)
+- [split](#split)
+- [sed](#sed)
+- [chage](#chage)
+- [systemctl](#systemctl)
+- [kill](#kill)
+
+#### File system
+/boot                   contains file that is used by the boot loader (grub.cfg)            
+/root                   root user directory            
+/dev                    system devices (disk, cdrom, flash, speaker, keyboard, etc)             
+/etc                    configuaration files                    
+/bin or /usr/bin        common user command
+/sbin or /usr/sbin      system/filessystem command          
+/opt                    optional add-on application (not a part of OS apps)         
+/proc                   running process (only exist in memory)          
+/lib or /usr/lib        c programing library file need by commands and apps             
+/tmp                    directory for temporary files           
+/home                   directory for user                  
+/var                    for system log              
+/run                    system deamons that start very early(systemd and udev) story temporary runtime file like PID files              
+/mnt                    to mount external systemfile         
+/media                  for cdrom mounts            
+
+
 
 <a name="template"></a>
 ##### Concept:  
@@ -297,8 +327,8 @@ Type: "chmod 674 program" (add rw for Owner, rwx for Group, and r for Other)
 ###### Situation: like shortcut in window 
 
 ###### Real combat:
-Type: "ln -s source.txt destination.txt" (link source.txt file to destination.txt; If one of the two changes both file changes)     
-Type: "ln source.txt ./abc" (link a file to folder, source.txt will be copied to the abc directory)     
+Type: "ln -s source.txt destination.txt" (soft link source.txt file to destination.txt; If one of the two changes both file changes)     
+Type: "ln source.txt ./abc" (hard link a file to folder, source.txt will be copied to the abc directory, if source removed destination file still work nomally)              
 ###### Explain:
 ###### Common options:
 -f, --force: remove existing destination files            
@@ -537,7 +567,7 @@ Type: "sleep 1d"
 
 <a name="users"></a>
 ##### Concept: users command in Linux system is used to show the user names of users currently logged in to the current host. It will display who is currently logged in according to FILE
-###### Situation:
+###### Situation: check wall (chat to all user login in your system) and write (chat to particular user login) command
 
 ###### Real combat:
 "users [OPTION]... [FILE]"
@@ -575,7 +605,7 @@ Type: "sudo -u kali whoami" (login with kali user and check whoami)
 ##### Concept: who command is used to find out the following information:
 Time of last system boot.       
 Current run level of the system.        
-List of logged in users and more.       
+List of logged in users and more (how many user login in your system).       
 ###### Situation: 
 
 ###### Real combat:
@@ -1008,3 +1038,162 @@ Type: taskset -cp 0-2 734967 (assign cpu 0,1,2 for task with pid 734967)
 -c, --cpu-list: Interpret mask as numerical list of processors instead of a bitmask. Numbers are separated by commas and may include ranges. For example: 0,5,8-11.
 -p, --pid: Operate on an existing PID and do not launch a new task.
 
+<a name="cut"></a>
+##### Concept: cut command help filter text
+###### Situation: 
+
+###### Real combat:
+"cut OPTION... [FILE]..."
+Type: cut -c1 abc.txt (get fist character of each line)      
+Type: cut -c1,3,5 abc.txt (get character at fist, three, five of each line)         
+Type: cut -c1-5 abc.txt (get from fist to five characters of each line)     
+Type: cut -d: -f5 abc.txt  (select field number five)             
+###### Explain:  
+###### Common options:
+-c, --characters=LIST: select only these characters             
+-d, --delimiter=DELIM: use DELIM instead of TAB for field delimiter        
+
+<a name="setfacl"></a>
+##### Concept: setfacl and getfacl provides an addtional, more flexible permission mechanism for file system. It's designed to assist with UNIX file permission. ACL (Access Control List) allow you to give permissions for any user or group to any disc resource.
+###### Situation: 
+
+###### Real combat:
+"setfacl -m u:kali:rwx /path/to/file" (add read write execute for user kali)                         
+"setfacl -m g:groupkali:rx /path/to/file" (add read execute for group kali)                        
+"setfacl -dm "entry" /path/to/dir" (allow all files or directory to inherit ACL)                               
+"setfacl -Rm "entry" /path/to/dir" (recursive inherit ACL)                                             
+"setfacl -b /path/to/file" (remove all entries)                                            
+"getfacl /path/to/file" (get ACL)                                                       
+###### Explain:  
+###### Common options:
+-b, --remove-all: Remove all extended ACL entries. The base ACL entries of the owner, group and others are retained             
+-d, --default: All operations apply to the Default ACL. Regular ACL entries in the input set are promoted to Default ACL entries. Default ACL entries in the input set are discarded        
+-R, --recursive: Apply operations to all files and directories recursively          
+
+<a name="awk"></a>
+##### Concept: awk help extrac data (extract fields from a file or from an output)           
+###### Situation: 
+
+###### Real combat:
+"awk '{print $1}' abc.txt (List first field from abc.txt file)          
+"awk '/Jerry/{print}' abc.txt (Search for a specific word)                    
+"awk -F: '{print $1}' /etc/passwd (ouput first field of /etc/passwd file)                                   
+"echo "Hello Tom" | awk '{$2="Adam"; print $0}' (replace Tom by Adam and print out)                 
+"awk 'length($0) > 15' abc.txt  (filter line in abc.txt have len more than 15 characters)                                                 
+"ls -l | awk '{if($9 == "abc.txt") print $0}'  (filter by string abc)                                                                
+###### Explain:  
+###### Common options:
+
+<a name="grep"></a>
+##### Concept:  grep command for filter string
+###### Situation: 
+
+###### Real combat:
+"grep keyword path/to/file"             
+"grep -c keyword path/to/file" (count matched line)                             
+"grep -i keyword path/to/file" (ignore-case)               
+"grep -n keyword path/to/file" (display the matched line and their line numbers)                           
+###### Explain:  
+###### Common options:
+-E, --extended-regexp: Interpret PATTERNS as extended regular expressions               
+-i, --ignore-case: Ignore case distinctions in patterns and input data, so that characters that differ only in case match each other                
+-c, --count: Suppress normal output; instead print a count of matching lines for each input file   
+
+<a name="sort"></a>
+##### Concept: sort in alphabetical order
+###### Situation: 
+
+###### Real combat:
+"sort [OPTION]... [FILE]..."
+"sort -r abc.txt" (sort with reverse)  
+"sort -k2 abc.txt" (sort by field number two)               
+
+###### Explain:  
+###### Common options:
+-r, --reverse: reverse the result of comparisons
+-k, --key=KEYDEF: sort via a key; KEYDEF gives location and type                
+
+<a name="uniq"></a>
+##### Concept: uniq filters out the repeated or duplicate line
+###### Situation: 
+
+###### Real combat:
+"cat abc.txt | sort | uniq -c"  (print number display of each line)
+"cat abc.txt | sort | uniq -d"  (only print duplicate line)             
+###### Explain:  
+###### Common options:
+-c, --count: prefix lines by the number of occurrences              
+-d, --repeated: only print duplicate lines, one for each group              
+
+<a name="split"></a>
+##### Concept: split command help seperate a file to many file
+###### Situation: 
+
+###### Real combat:
+"split [OPTION]... [FILE [PREFIX]]"             
+"split -l 10 file.txt seperate" (split file.txt into 10 lines to seperateaa, seperateab, seperateac, ...)                   
+###### Explain:  
+###### Common options:
+-l, --lines=NUMBER: put NUMBER lines/records per output file        
+
+<a name="sed"></a>
+##### Concept: replace a string in a file with new string, find and delete a line, remove empty line, remove fisrt or n lines in a file, replace tabs with spaces, show defined lines from a file, substitute within vi editor.           
+###### Situation: 
+
+###### Real combat:
+"sed [OPTION]... {script-only-if-no-other-script} [input-file]..."              
+"sed 's/Tam/Michael/g' abc.txt" (find in abc.txt replace Tam by Michael)            
+"sed -i 's/Tam/Michael/g' abc.txt" (find in abc.txt replace Tam by Michael also modify abc.txt)                  
+"sed '/Tam/d' abc.txt" (find in abc.txt delete all line containt Tam)                  
+"sed '/^$/d' abc.txt" (find in abc.txt delete empty line)                  
+"sed '1d' abc.txt" (delete first line)                  
+"sed '1,2d' abc.txt" (delete first line and second line)                  
+"sed 's/\t/ /g' abc.txt" (find in abc.txt replace tabs by space)            
+###### Explain:  
+###### Common options:
+-i: edit content in file            
+
+<a name="chage"></a>
+##### Concept: The chage command changes the number of days between password changes and the date of the last password change. This information is used by the system to determine when a user must change their password.
+###### Situation: 
+
+###### Real combat:
+"chage -m 5 -M 90 -W 10 -I 3 -E kali"
+###### Explain:  
+###### Common options:
+-d, --lastday LAST_DAY: Set the number of days since January 1st, 1970 when the password was last changed           
+-m, --mindays MIN_DAYS:  Set the minimum number of days between password changes to MIN_DAYS                
+-M, --maxdays MAX_DAYS: Set the maximum number of days during which a password is valid. When MAX_DAYS plus LAST_DAY is less than the current day, the user will be required to change their password before being able to use their account This occurrence can be planned for in advance by use of the -W option, which provides the user with advance warning.        
+-W, --warndays WARN_DAYS: Set the number of days of warning before a password change is required                
+-I, --inactive INACTIVE: Set the number of days of inactivity after a password has expired before the account is locked         
+-E, --expiredate EXPIRE_DATE: Set the date or number of days since January 1, 1970 on which the user's account will no longer be accessible    
+
+<a name="systemctl"></a>
+##### Concept: systemctl command is a tool to control system services
+###### Situation: 
+
+###### Real combat:
+"systemctl start|stop|status servicename.service"
+"systemctl list-units --all" (list all service in linux)            
+"systemctl reboot"
+"systemctl poweroff"
+"systemctl halt"
+###### Explain:  
+###### Common options:
+
+<a name="kill"></a>
+##### Concept: kill process
+###### Situation: 
+
+###### Real combat:
+"kill -l"  (list all signal names)                      
+"kill PID"  (kill with process id)                       
+"kill -1 PID"  (restart)                          
+"kill -2 PID"  (like Ctrl + c)                       
+"kill -9 PID"  (forcefully kill the process)                                  
+"kill -15 PID"  (kill a process gracefully)                                                 
+"killall processname"  (kill with process name)                                    
+"pkill processname"  (kill with process name)                                      
+###### Explain:  
+###### Common options:
+-l, --list: List signal names
