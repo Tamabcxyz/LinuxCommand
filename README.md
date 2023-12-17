@@ -73,6 +73,7 @@
 - [chage](#chage)
 - [systemctl](#systemctl)
 - [kill](#kill)
+- [traceroute](#traceroute)
 
 #### File system
 /boot                   contains file that is used by the boot loader (grub.cfg)            
@@ -89,8 +90,14 @@
 /var                    for system log              
 /run                    system deamons that start very early(systemd and udev) story temporary runtime file like PID files              
 /mnt                    to mount external systemfile         
-/media                  for cdrom mounts            
-
+/media                  for cdrom mounts    
+yum history (check history get id)                      
+yum history undo <id> (back to old version of package)   
+Network Time Protocal (chronyd)             
+Central logger (rsyslog)                
+OpenLDAP (slapd)    
+Linux Web-base Administration (cockpit)    
+Firewall (firewalld)                             
 
 
 <a name="template"></a>
@@ -1197,3 +1204,12 @@ Type: cut -d: -f5 abc.txt  (select field number five)
 ###### Explain:  
 ###### Common options:
 -l, --list: List signal names
+
+<a name="traceroute"></a>
+##### Concept: The traceroute command is a network diagnostic tool used to display the route and measure the transit delays of packets across an Internet Protocol (IP) network. It's commonly used to identify network issues and find out the path that packets take from the source to the destination.
+###### Situation: 
+
+###### Real combat:
+"traceroute google.com"             
+###### Explain:  
+###### Common options:
