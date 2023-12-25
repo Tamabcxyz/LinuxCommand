@@ -74,8 +74,12 @@
 - [systemctl](#systemctl)
 - [kill](#kill)
 - [traceroute](#traceroute)
+- [nice](#nice)
+- [umask](#umask)
+- [pmap](#pmap)
 
-#### File system
+#### Filesystem
+Types of filesystem: ext3, ext4, xfs, NTFS, etc...                  
 /boot                   contains file that is used by the boot loader (grub.cfg)            
 /root                   root user directory            
 /dev                    system devices (disk, cdrom, flash, speaker, keyboard, etc)             
@@ -90,15 +94,66 @@
 /var                    for system log              
 /run                    system deamons that start very early(systemd and udev) story temporary runtime file like PID files              
 /mnt                    to mount external systemfile         
-/media                  for cdrom mounts    
+/media                  for cdrom mounts 
+
+#### Some Keywords
 yum history (check history get id)                      
 yum history undo <id> (back to old version of package)   
 Network Time Protocal (chronyd)             
 Central logger (rsyslog)                
 OpenLDAP (slapd)    
-Linux Web-base Administration (cockpit)    
-Firewall (firewalld)                             
+Linux Web-base Administration (cockpit)         
 
+Automate Linux Installation (kickstart)
+yum install system-config-kickstart             
+
+Firewall (firewalld)                
+firewall-cmd --list-all                           
+firewall-cmd --get-services                             
+firewall-cmd --reload                     
+
+Tune system Performance (tuned, nice, renice)                              
+systemctl enable tuned                 
+tuned-adm
+
+Check disk issues (iostat, lsof)           
+Check networking (tcpdump, netstat, ss, iftop, ethtool)              
+Check system uptime (uptime)
+
+Linux Boot Process
+BIOS software       ==>         Basic Input/Output System executes MBR                                               
+MBR                 ==>         Master Boot Record executes GRUB                                               
+GRUB                ==>         Grand Unified Bootloader executes Kernel                                             
+Kernel              ==>         Kernel executes /sbin/init                                                           
+Init                ==>         Init executes runlevel programs                                                                        
+Runlevel            ==>         Runlevel programs are executes from /etc/rc.d/rc*.d                                                                      
+
+System run level (have 6 levels)            
+0 Shutdown or halt the system               
+1 Single-user mode; usually aliased as s or S               
+6 Reboot the system    
+2 Multiuser mode without networking        
+3 Multiuser mode with networking                          
+5 Multiuser mode with networking and GUI            
+4 run level 4 is undefine or not used/User-definable      
+(type: init level_id) 
+
+SELinux (Security Enhanced Linux)  /etc/selinux/config  
+getenforce                                  
+sestatus        
+getsebool
+setsebool
+journalctl
+chcon           
+semanage     
+
+Processes and Jobs              
+Application = Service               
+Script              
+Process                 
+Daemon              
+Threads                 
+Job                 
 
 <a name="template"></a>
 ##### Concept:  
@@ -480,7 +535,7 @@ Type: "date +"%Y-%m-%d %H:%M:%S""
 -u, --utc, --universal: print or set Coordinated Universal Time (UTC)       
 
 <a name="df"></a>
-##### Concept: df stands for disk free
+##### Concept: df stands for disk free (fdisk, fsck)
 ###### Situation: how much space is available on a particular file system       
 
 ###### Real combat:
@@ -1213,3 +1268,33 @@ Type: cut -d: -f5 abc.txt  (select field number five)
 "traceroute google.com"             
 ###### Explain:  
 ###### Common options:
+
+<a name="nice"></a>
+##### Concept: the nice command is typically used to lauch processes with lower or higher priority, effecting their shceduling in the system can be set at 40 different levels
+-20 (highest priority) to 19 (lowest priority)
+###### Situation: 
+
+###### Real combat:
+nice -n -15 top (set the top command to nice level -15)             
+renice -n 12 PID (modify process priority of top command to 12)             
+###### Explain:  
+###### Common options:
+
+<a name="umask"></a>
+##### Concept: umask is a command to set default permission of any newly create file/directory
+###### Situation: 
+
+###### Real combat:
+umask u+rw,g+r,o-rwx (any newly create file/directory will set rw for user owner, r for group and other user don't have rwx)            
+###### Explain:  
+###### Common options:
+
+<a name="pmap"></a>
+##### Concept: the pmap command in Linux used to display the memory map of a process or a set of processes. Provides detailed about the memory usage of a process, include the addresses, permission, and sizes of memory regions. 
+###### Situation: 
+
+###### Real combat:
+"pmap [options] [pid]"
+###### Explain:  
+###### Common options:
+-x, --extended: Show the extended format                
