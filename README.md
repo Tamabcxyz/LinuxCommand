@@ -153,7 +153,17 @@ Script
 Process                 
 Daemon              
 Threads                 
-Job                 
+Job      
+
+SSH without password                
+Step 1: Genkey              
+ssh-keygen -t rsa -b 4096                                 
+Step 2: Copy the key (public key) to the server add to ~/.ssh/authorized_keys                                         
+ssh-copy-id root@192.168.1.x                
+Step 3: Restart service ssh                 
+systemctl restart ssh               
+Step 4: ssh to the server to check                      
+ssh root@192.168.1.x                
 
 <a name="template"></a>
 ##### Concept:  
