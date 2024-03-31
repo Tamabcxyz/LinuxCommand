@@ -305,16 +305,20 @@ Type: "tac abc.txt"
 
 <a name="xxd"></a>
 ##### Concept: xxd command allows you to creates a hex dump of a given file or standard input
-###### Situation: 
+###### Situation: convert and revert hex dump to secure message :))
 
 ###### Real combat:
-Type: "echo "hello" | xxd"
+Type: "echo "hello" | xxd"          
+Type: "xxd -p message.txt > hexdump"            
+Type: "xxd -r -p hexdump > decryMessage.txt"           
 ###### Explain:  
 ###### Common options:
+-b : Output in PostScript continuous hex dump style. Also known as plain hex dump style                      
+-r : Reverse  operation hex to text                          
 
+###### Situation: if you wanna remove something, try this comman
 <a name="rm"></a>
-##### Concept: rm stands for remove. Support remove file/folder
-###### Situation: if you wanna remove something, try this command
+##### Concept: rm stands for remove. Support remove file/folderd
 
 ###### Real combat:
 Type: "rm abc.txt" (remove file abc.txt)    
@@ -1158,18 +1162,20 @@ Type: cut -d: -f5 abc.txt  (select field number five)
 
 <a name="grep"></a>
 ##### Concept:  grep command for filter string
-###### Situation: 
+###### Situation: can be using grep command to find a text in a folder
 
 ###### Real combat:
 "grep keyword path/to/file"             
 "grep -c keyword path/to/file" (count matched line)                             
 "grep -i keyword path/to/file" (ignore-case)               
-"grep -n keyword path/to/file" (display the matched line and their line numbers)                           
+"grep -n keyword path/to/file" (display the matched line and their line numbers)   
+"grep -r "text find" /path/to/folder" (find text in folder)                                     
 ###### Explain:  
 ###### Common options:
 -E, --extended-regexp: Interpret PATTERNS as extended regular expressions               
 -i, --ignore-case: Ignore case distinctions in patterns and input data, so that characters that differ only in case match each other                
--c, --count: Suppress normal output; instead print a count of matching lines for each input file   
+-c, --count: Suppress normal output; instead print a count of matching lines for each input file                
+-r, --recursive: Read  all  files  under  each  directory, recursively                
 
 <a name="sort"></a>
 ##### Concept: sort in alphabetical order
