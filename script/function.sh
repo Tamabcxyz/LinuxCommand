@@ -1,8 +1,12 @@
 #!/bin/bash
-myfunc(){
+function myfunc1(){
+    echo "this is my function1"
+}
+
+myfunc2(){
     echo "this is my function"
 }
-myfunc
+myfunc2
 
 calculate_sum() {
     local a="$1"
