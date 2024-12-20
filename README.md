@@ -78,6 +78,9 @@
 - [umask](#umask)
 - [pmap](#pmap)
 
+# Some command help fixing network
+if interface is not provide ip add try the command "systemctl restart smbd && dhclient eth0" (provide ip for interface 0)               
+
 #### Filesystem
 Types of filesystem: ext3, ext4, xfs, NTFS, etc...                  
 /boot                   contains file that is used by the boot loader (grub.cfg)            
